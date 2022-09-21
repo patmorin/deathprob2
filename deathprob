@@ -1,0 +1,45 @@
+#!/usr/bin/python3
+
+import sys
+import csv
+from zipfile import ZipFile
+from io import TextIOWrapper
+
+
+def all_values(qage, qsex, qgeo):
+    results = dict()
+    with ZipFile("13100114.zip") as myzip:
+        with myzip.open("13100114.csv", "r") as rawcsvfile:
+            csvfile = TextIOWrapper(rawcsvfile)
+            reader = csv.reader(csvfile)
+            qage = "{} years".format(qage)
+            for row in reader:
+                date = row[0].lower()
+                geo = row[1].lower()
+                age = row[3].lower()
+                sex = row[4].lower()
+                key = row[5].lower()
+                value = row[12].lower()
+                if age == qage and qsex == sex and qgeo == geo:
+                    results[key] = value
+    return results
+
+
+if __name__ == "__main__":
+    try:
+        myage = int(sys.argv[1])
+        mysex = {"m": "males", "f": "females", "b": "both sexes"}[sys.argv[2]]
+        mygeo = sys.argv[3].lower()
+    except Exception as e:
+        print(e)
+        print("Usage: {} <age> <m|f|b> <province>".format(sys.argv[0]))
+        sys.exit(-1)
+    print("Finding data for a {}-year-old living in {} ({})...".format(myage, mygeo, mysex), end='')
+    sys.stdout.flush()
+    results = all_values(myage, mysex, mygeo)
+    print("done")
+    # print(results)
+    deathprob = float(results["Death probability between age x and x+1 (qx)".lower()])
+    print("Probability of dying in the next year is {:f} (approx 1/{:.0f})".format(deathprob, 1/deathprob))
+    lifeex = float(results["Life expectancy (in years) at age x (ex)".lower()])
+    print("Number of remaining years to live is {:.2f}".format(lifeex))
