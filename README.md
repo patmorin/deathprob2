@@ -7,4 +7,4 @@ This can be a useful tool for decision-making or understanding risk.  Some examp
 - How much would a covid infection increase your chances of dying this year?
 - How much would an organ donation increase your risk of dying this year?
 
-Warning: The answers obtained from this program may cause anxiety.  Many people usually underestimate their risk of dying by at least an order of magnitude.  For example, a 48-year Ontario man has a 1/392 chance of dying in the next year.
+Warning: The answers obtained from this program may cause anxiety.  Many people usually underestimate their risk of dying by at least an order of magnitude.  For example, a typical 48-year old Ontario male has a 1/392 chance of dying in the next year.
